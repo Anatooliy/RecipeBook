@@ -1,0 +1,127 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/RecipeBookUI/dist
+/RecipeBookUI/tmp
+/RecipeBookUI/out-tsc
+# Only exists if Bazel was run
+/RecipeBookUI/bazel-out
+
+# dependencies
+/RecipeBookUI/node_modules
+
+# profiling files
+/RecipeBookUI/chrome-profiler-events*.json
+/RecipeBookUI/speed-measure-plugin*.json
+
+# IDEs and editors
+/RecipeBookUI/.idea
+/RecipeBookUI/.project
+/RecipeBookUI/.classpath
+/RecipeBookUI/.c9/
+/RecipeBookUI/*.launch
+/RecipeBookUI/.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+/RecipeBookUI/.vscode/*
+!/RecipeBookUI/.vscode/settings.json
+!/RecipeBookUI/.vscode/tasks.json
+!/RecipeBookUI/.vscode/launch.json
+!/RecipeBookUI/.vscode/extensions.json
+/RecipeBookUI/.history/*
+
+# misc
+/RecipeBookUI/.sass-cache
+/RecipeBookUI/connect.lock
+/RecipeBookUI/coverage
+/RecipeBookUI/libpeerconnection.log
+/RecipeBookUI/npm-debug.log
+/RecipeBookUI/yarn-error.log
+/RecipeBookUI/testem.log
+/RecipeBookUI/typings
+
+# System Files
+/RecipeBookUI/.DS_Store
+/RecipeBookUI/Thumbs.db
+
+
+###################
+# compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.pdb
+*.dll.config
+*.cache
+*.suo
+# Include dlls if they’re in the NuGet packages directory
+!/RecipeBookBackEnd/packages/*/lib/*.dll
+!/RecipeBookBackEnd/packages/*/lib/*/*.dll
+# Include dlls if they're in the CommonReferences directory
+!*CommonReferences/*.dll
+####################
+# VS Upgrade stuff #
+####################
+UpgradeLog.XML
+_UpgradeReport_Files/
+###############
+# Directories #
+###############
+/RecipeBookBackEnd/bin/
+/RecipeBookBackEnd/obj/
+/RecipeBookBackEnd/Images/
+/RecipeBookBackEnd/TestResults/
+/RecipeBookBackEnd/.vs/
+###################
+# Web publish log #
+###################
+*.Publish.xml
+#############
+# Resharper #
+#############
+/_ReSharper.*
+*.ReSharper.*
+############
+# Packages #
+############
+# it’s better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+######################
+# Logs and databases #
+######################
+*.log
+*.sqlite
+*.mdf
+*.ldf
+
+# OS generated files #
+######################
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+[Bb]in
+[Oo]bj
+[Tt]est[Rr]esults
+*.suo
+*.user
+*.[Cc]ache
+*[Rr]esharper*
+packages
+NuGet.exe
+_[Ss]cripts
+*.exe
+*.dll
+*.nupkg
+*.ncrunchsolution
