@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 namespace DAL.EF
 {
-    class RecipeBookInitializer : DropCreateDatabaseAlways<RecipeContext>
+    public class RecipeBookInitializer : DropCreateDatabaseAlways<RecipeContext>
     {
         protected override void Seed(RecipeContext context)
         {
@@ -37,9 +37,11 @@ namespace DAL.EF
                     recipeMain,
                     recipeSecondLevel,
                     recipeThirdLevel
-                });            
+                });
 
-            base.Seed(context);
+            context.SaveChanges();
+
+            //base.Seed(context);
         }
     }
 }

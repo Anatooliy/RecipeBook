@@ -18,7 +18,7 @@ namespace DAL.Repositories
         }       
 
         public IEnumerable<Recipe> GetAll()
-        {
+        {           
             return db.Recipes;
         }
 

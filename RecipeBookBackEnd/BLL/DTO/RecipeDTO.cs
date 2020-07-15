@@ -8,6 +8,6 @@ namespace BLL.DTO
         public string Name { get; set; }        
         public string Description { get; set; }       
         public DateTime CreatedDate { get; set; }
-        public int ParentRecipeId { get; set; }        
+        public int? ParentRecipeId { get; set; }        
     }
 }

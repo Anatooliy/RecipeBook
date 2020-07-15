@@ -13,7 +13,7 @@ namespace DAL.Entities
         public string Description { get; set; }
         [Required]
         public DateTime CreatedDate { get; set; }
-        public int ParentRecipeId { get; set; }
+        public int? ParentRecipeId { get; set; }
         public Recipe ParentRecipe { get; set; }
 
         public virtual ICollection<Recipe> Recipes { get; set; }
