@@ -1,8 +1,14 @@
 import { Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { Recipe } from './recipe.model';
+import { BaseApi } from '../shared/core/base-api';
 
-export class RecipeService {
+@Injectable()
+export class RecipeService extends BaseApi {
     recipesChanged = new Subject<Recipe[]>();
 
     private recipes: Recipe[] = [
@@ -11,12 +17,16 @@ export class RecipeService {
         new Recipe(2, 'Fried Chicken with Mayo and Mustard', 'Description of Fried Chicken with Mayo and Mustard', new Date())
     ];
 
-    getRecipes(): Recipe[] {
-        return this.recipes.slice();
+    constructor(public http: HttpClient) {
+        super(http);
     }
 
-    getRecipe(id: number): Recipe {
-        return this.recipes.slice()[id];
+    getRecipes(): Observable<Recipe[]> {
+        return this.get<Recipe[]>('recipes');
+    }
+
+    getRecipe(id: number): Observable<Recipe> {
+        return this.get<Recipe>(`recipes/${id}`);
     }
 
     addRecipe(recipe: Recipe): void {
