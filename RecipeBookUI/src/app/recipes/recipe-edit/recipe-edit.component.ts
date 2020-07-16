@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { RecipeService } from '../recepi.service';
 import { Recipe } from '../recipe.model';
@@ -10,9 +11,11 @@ import { Recipe } from '../recipe.model';
   templateUrl: './recipe-edit.component.html',
   styleUrls: ['./recipe-edit.component.css']
 })
-export class RecipeEditComponent implements OnInit {
+export class RecipeEditComponent implements OnInit, OnDestroy {
   id: number;
   editMode = false;
+  currentRecipe: Recipe;
+  editSubscr: Subscription = null;
   recipeForm: FormGroup;
 
   constructor(private route: ActivatedRoute,
@@ -28,17 +31,10 @@ export class RecipeEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const newRecipe = new Recipe(
-      this.id,
-      this.recipeForm.value.name,
-      this.recipeForm.value.description,
-      new Date()
-    );
-
     if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, newRecipe);
+      this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {
-      this.recipeService.addRecipe(newRecipe);
+      this.recipeService.addRecipe(this.recipeForm.value);
     }
 
     this.onCancel();
@@ -49,19 +45,23 @@ export class RecipeEditComponent implements OnInit {
   }
 
   private initForm(): void {
-    let recipeName = '';
-    let recipeDescription = '';
+    this.recipeForm = new FormGroup({
+      id: new FormControl(''),
+      name: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      createdDate: new FormControl(''),
+    });
 
     if (this.editMode) {
-      const recipe = this.recipeService.getRecipe(this.id);
-
-      //recipeName = recipe.name;
-      //recipeDescription = recipe.description;
+      this.editSubscr = this.recipeService.getRecipe(this.id).subscribe((recipe: Recipe) => {
+        this.recipeForm.setValue(recipe);
+      });
     }
+  }
 
-    this.recipeForm = new FormGroup({
-      name: new FormControl(recipeName, Validators.required),
-      description: new FormControl(recipeDescription, Validators.required)
-    });
+  ngOnDestroy(): void {
+    if (this.editSubscr !== null) {
+      this.editSubscr.unsubscribe();
+    }
   }
 }

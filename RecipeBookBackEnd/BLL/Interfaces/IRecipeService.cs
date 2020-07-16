@@ -11,6 +11,9 @@ namespace BLL.Interfaces
     {
         RecipeDTO GetRecipe(int? id);
         IEnumerable<RecipeDTO> GetRecipes();
+        void UpdateRecipe(RecipeDTO recipeDto);
+        void CreateRecipe(RecipeDTO recipeDto);
+        void DeleteRecipe(int id);
         void Dispose();
     }
 }

@@ -31,4 +31,10 @@ export class BaseApi {
             map((response: Response) => response)
         );
     }
+
+    public delete(url: string = '', data: any = {}): Observable<any>{
+        return this.http.delete(this.getUrl(url)).pipe(
+            map((response: Response) => response)
+        );
+    }
 }

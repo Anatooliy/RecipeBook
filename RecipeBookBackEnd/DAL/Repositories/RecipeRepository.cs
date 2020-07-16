@@ -45,6 +45,7 @@ namespace DAL.Repositories
         public void Delete(int id)
         {
             Recipe recipe = db.Recipes.Find(id);
+
             if (recipe != null)
                 db.Recipes.Remove(recipe);
         }   

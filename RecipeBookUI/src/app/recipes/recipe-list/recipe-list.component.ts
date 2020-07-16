@@ -12,27 +12,33 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
   recipes: Recipe[];
-  subscr: Subscription;
+  subscrData: Subscription;
+  subscrObs: Subscription = null;
 
   constructor(private recipeService: RecipeService,
               private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.subscr = this.recipeService.recipesChanged.subscribe((recipes: Recipe[]) => {
-      this.recipes = recipes;
-    });
-
-    this.recipeService.getRecipes().subscribe((recipes: Recipe[]) => {
-      this.recipes = recipes;
-    });
+    this.fetchData();
+    this.subscrObs = this.recipeService.obs.subscribe(() => this.fetchData());
   }
 
   onNewRecipe(): void {
     this.router.navigate(['new'], {relativeTo: this.route});
   }
 
+  private fetchData(): void {
+    this.subscrData = this.recipeService.getRecipes().subscribe((recipes: Recipe[]) => {
+      this.recipes = recipes;
+    });
+  }
+
   ngOnDestroy(): void {
-    this.subscr.unsubscribe();
+    this.subscrData.unsubscribe();
+
+    if (this.subscrObs !== null) {
+      this.subscrObs.unsubscribe();
+    }
   }
 }
