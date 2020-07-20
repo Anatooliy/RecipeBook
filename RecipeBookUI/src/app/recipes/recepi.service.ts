@@ -2,8 +2,8 @@ import { ReplaySubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-import { Recipe } from './recipe.model';
+import {map} from 'rxjs/operators';
+import { Recipe } from './models/recipe.model';
 import { BaseApi } from '../shared/core/base-api';
 
 @Injectable()

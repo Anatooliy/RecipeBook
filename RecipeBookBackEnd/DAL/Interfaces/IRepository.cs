@@ -4,14 +4,13 @@ using System.Collections.Generic;
 
 namespace DAL.Interfaces
 {
-    public interface IRepository : IDisposable
+    public interface IRepository<T> where T : class
     {
-        IEnumerable<Recipe> GetAll();
-        Recipe Get(int id);
-        IEnumerable<Recipe> Find(Func<Recipe, bool> predicate);
-        void Create(Recipe recipe);
-        void Update(Recipe recipe);
+        IEnumerable<T> GetAll();
+        T Get(int id);
+        IEnumerable<T> Find(Func<T, bool> predicate);
+        void Create(T recipe);
+        void Update(T recipe);
         void Delete(int id);
-        void Save();
     }
 }

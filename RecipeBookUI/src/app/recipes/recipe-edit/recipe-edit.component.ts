@@ -4,7 +4,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { RecipeService } from '../recepi.service';
-import { Recipe } from '../recipe.model';
+import { Recipe } from '../models/recipe.model';
+import { TreesNode } from '../models/trees-node';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -14,7 +15,7 @@ import { Recipe } from '../recipe.model';
 export class RecipeEditComponent implements OnInit, OnDestroy {
   id: number;
   editMode = false;
-  currentRecipe: Recipe;
+  treeNodes: TreesNode[];
   editSubscr: Subscription = null;
   recipeForm: FormGroup;
 
@@ -34,6 +35,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {
+      this.recipeForm.controls.parentId.setValue(this.recipeForm.value.namesTree.id);
       this.recipeService.addRecipe(this.recipeForm.value);
     }
 
@@ -50,13 +52,45 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       createdDate: new FormControl(''),
+      namesTree: new FormControl(''),
+      parentId: new FormControl('')
     });
 
-    if (this.editMode) {
-      this.editSubscr = this.recipeService.getRecipe(this.id).subscribe((recipe: Recipe) => {
-        this.recipeForm.setValue(recipe);
-      });
-    }
+
+    this.editSubscr = this.recipeService.getRecipes().subscribe((recipes: Recipe[]) => {
+      let currentRecipe: Recipe;
+      this.mapRecipesToTreesNode(recipes);
+
+      if (this.editMode) {
+        currentRecipe = recipes.find((recipe: Recipe) => {
+          return recipe.id === this.id;
+        });
+
+        this.recipeForm.setValue(currentRecipe);
+        this.recipeForm.controls.namesTree.disable();
+      }
+
+      this.recipeForm.controls.namesTree.setValue( this.getParentRecipe(currentRecipe), { onlySelf: true });
+    });
+  }
+
+  private getParentRecipe(recipe: Recipe): TreesNode {
+    return this.treeNodes.find((node: TreesNode) => {
+      if (!recipe || recipe.parentId === null) {
+        return node.id === 0;
+      } else {
+        return node.id === recipe.parentId;
+      }
+    });
+  }
+
+  private mapRecipesToTreesNode(recipes: Recipe[]): void {
+    this.treeNodes = recipes.map((recipe: Recipe) => ({ id: recipe.id, name: this.getFullName(recipe) }));
+    this.treeNodes.unshift(new TreesNode(0, 'Root'));
+  }
+
+  private getFullName(recipe): string {
+    return recipe.namesTree.find(node => node.id === recipe.id).name;
   }
 
   ngOnDestroy(): void {

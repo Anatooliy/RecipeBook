@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Recipe } from '../../recipe.model';
+import { Recipe } from '../../models/recipe.model';
 
 @Component({
   selector: 'app-recipe-item',
@@ -11,5 +11,9 @@ export class RecipeItemComponent implements OnInit {
   @Input() recipe: Recipe;
 
   ngOnInit(): void {
+  }
+
+  getFullName(): string {
+    return this.recipe.namesTree.find(node => node.id === this.recipe.id).name;
   }
 }

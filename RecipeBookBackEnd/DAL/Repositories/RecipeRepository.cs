@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace DAL.Repositories
 {
-    public class RecipeRepository : IRepository
+    public class RecipeRepository : IRepository<Recipe>
     {
         private RecipeContext db;
 
@@ -47,33 +47,15 @@ namespace DAL.Repositories
             Recipe recipe = db.Recipes.Find(id);
 
             if (recipe != null)
-                db.Recipes.Remove(recipe);
-        }   
-        
-        public void Save()
-        {
-            db.SaveChanges();
-        }
-
-
-        private bool disposed = false;
-
-        public virtual void Dispose(bool disposing)
-        {
-            if (!this.disposed)
             {
-                if (disposing)
+                recipe.Recipes.ToList().ForEach(r =>
                 {
-                    db.Dispose();
-                }
-                this.disposed = true;
-            }
-        }
+                    r.ParentRecipe = recipe.ParentRecipe;
+                    Update(r);
+                });
 
-        public void Dispose()
-        {
-             Dispose(true);
-             GC.SuppressFinalize(this);
+                db.Recipes.Remove(recipe);
+            }       
         }
     }
 }

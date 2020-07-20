@@ -1,0 +1,12 @@
+h3 {
+    display: inline-block;
+}
+
+h4 {
+    margin-top: 40px;
+}
+
+.manage-button {
+    margin-left: 5px;
+    margin-bottom: 7px;
+}

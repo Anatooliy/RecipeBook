@@ -18,7 +18,7 @@ namespace DAL.EF
 
             Recipe recipeSecondLevel = new Recipe
             {
-                Name = "Fried Chicken with Mayo",
+                Name = "with Mayo",
                 Description = "Description of Fried Chicken with Mayo",
                 CreatedDate = DateTime.Now.AddDays(-40),
                 ParentRecipe = recipeMain
@@ -26,7 +26,15 @@ namespace DAL.EF
 
             Recipe recipeThirdLevel = new Recipe
             {
-                Name = "Fried Chicken with Mayo and Mustard",
+                Name = "and Mustard",
+                Description = "Description of Fried Chicken with Mayo and Mustard",
+                CreatedDate = DateTime.Now.AddDays(-30),
+                ParentRecipe = recipeSecondLevel
+            };
+
+            Recipe recipeThirdLevel2 = new Recipe
+            {
+                Name = "and Chees",
                 Description = "Description of Fried Chicken with Mayo and Mustard",
                 CreatedDate = DateTime.Now.AddDays(-30),
                 ParentRecipe = recipeSecondLevel
@@ -36,7 +44,8 @@ namespace DAL.EF
                 new List<Recipe>() {
                     recipeMain,
                     recipeSecondLevel,
-                    recipeThirdLevel
+                    recipeThirdLevel,
+                    recipeThirdLevel2
                 });
 
             context.SaveChanges();

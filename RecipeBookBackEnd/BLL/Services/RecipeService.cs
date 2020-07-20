@@ -1,37 +1,35 @@
 ﻿using AutoMapper;
 using BLL.DTO;
+using BLL.Helpers;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BLL.Services
 {
     public class RecipeService : IRecipeService
-    {        
-        IRepository db { get; set; }
+    {
+        IUnitOfWork db { get; set; }
 
-        public RecipeService(IRepository repository)
+        public RecipeService(IUnitOfWork uof)
         {
-            db = repository;
+            db = uof;
         }
 
         public IEnumerable<RecipeDTO> GetRecipes()
         {
-            IMapper iMapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipeDTO>()).CreateMapper();
-
-            return iMapper.Map<IEnumerable<Recipe>, List<RecipeDTO>>(db.GetAll());
+            return new RecipeHelper()
+                .GetRecipeToRecipeDtoMapper()
+                .Map<IEnumerable<Recipe>, List<RecipeDTO>>(db.Recipes.GetAll());
         }
 
         public RecipeDTO GetRecipe(int? id)
         {
-            IMapper iMapper = new MapperConfiguration(cfg => cfg.CreateMap<Recipe, RecipeDTO>()).CreateMapper();
-
-            return iMapper.Map<Recipe, RecipeDTO>(db.Get(id.Value));            
+            return new RecipeHelper()
+                .GetRecipeToRecipeDtoMapper()
+                .Map<Recipe, RecipeDTO>(db.Recipes.Get(id.Value));            
         }   
         
         public void CreateRecipe(RecipeDTO recipeDTO)
@@ -42,7 +40,7 @@ namespace BLL.Services
 
             recipe.CreatedDate = DateTime.UtcNow;
 
-            db.Create(recipe);
+            db.Recipes.Create(recipe);
             db.Save();
         }
 
@@ -52,19 +50,19 @@ namespace BLL.Services
                 .CreateMapper()
                 .Map<RecipeDTO, Recipe>(recipeDTO);
 
-            db.Update(recipe);
+            db.Recipes.Update(recipe);
             db.Save();
         }
 
         public void DeleteRecipe(int id)
         {
-            db.Delete(id);
+            db.Recipes.Delete(id);
             db.Save();
         }
 
         public void Dispose()
-            {
-                db.Dispose();
-            }
+        {
+            db.Dispose();
         }
+    }
 }

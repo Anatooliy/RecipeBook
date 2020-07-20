@@ -1,13 +1,10 @@
 ﻿using AutoMapper;
 using BLL.DTO;
 using BLL.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using Web.API.Models;
+using Web.API.Util;
 
 namespace Web.API.Controllers
 {
@@ -23,17 +20,13 @@ namespace Web.API.Controllers
         // GET api/values
         public IEnumerable<RecipeViewModel> Get()
         {
-            IMapper iMapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipeDTO, RecipeViewModel>()).CreateMapper();
-
-            return iMapper.Map<IEnumerable<RecipeDTO>, List<RecipeViewModel>>(recipeService.GetRecipes());
+            return new ConfigureAutoMapper().GetMapper().Map<IEnumerable<RecipeDTO>, List<RecipeViewModel>>(recipeService.GetRecipes());
         }
 
         // GET api/values/5
         public RecipeViewModel Get(int id)
         {
-            IMapper iMapper = new MapperConfiguration(cfg => cfg.CreateMap<RecipeDTO, RecipeViewModel>()).CreateMapper();
-
-            return iMapper.Map<RecipeDTO, RecipeViewModel>(recipeService.GetRecipe(id)); ;
+            return new ConfigureAutoMapper().GetMapper().Map<RecipeDTO, RecipeViewModel>(recipeService.GetRecipe(id)); ;
         }
 
         // POST api/values

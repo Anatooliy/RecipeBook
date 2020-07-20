@@ -13,7 +13,7 @@ namespace BLL.Infrastructure
         }
         public override void Load()
         {
-            Bind<IRepository>().To<RecipeRepository>().WithConstructorArgument(connectionString);
+            Bind<IUnitOfWork>().To<EFUnitOfWork>().WithConstructorArgument(connectionString);
         }
     }
 }

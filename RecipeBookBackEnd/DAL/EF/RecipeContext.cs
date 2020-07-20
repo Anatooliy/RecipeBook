@@ -11,5 +11,12 @@ namespace DAL.EF
         {
             Database.SetInitializer<RecipeContext>(new RecipeBookInitializer());
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Configurations.Add(new RecipeConfig());
+        }
     }
 }

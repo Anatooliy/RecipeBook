@@ -1,24 +1,29 @@
-<div class="row">
-    <div class="col-md-12 col-sm-12">
-        <h1>{{ recipe?.name}} ({{ recipe?.createdDate | date: 'shortDate' }})</h1>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12 col-sm-12">
-        <div class="btn-group" appDropdown>
-            <button type="button" class="btn btn-primary dropdown-toggle">
-                Manage Recipe 
-                <span class="caret"></span>
+<div *ngIf="isLoaded">  
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <h3>{{ getFullName() }} ({{ recipe.createdDate | date: 'shortDate' }})</h3>
+            <button class="manage-button btn btn-success" (click)="onEditRecipe()">
+                <i class="glyphicon glyphicon-pencil"></i>
             </button>
-            <ul class="dropdown-menu">
-                <li><a style="cursor: pointer;" (click)="onEditRecipe()">Edit Recipe</a></li>
-                <li><a style="cursor: pointer;" (click)="onDeleteRecipe()">Delete Recipe</a></li>
-            </ul>
+            <button class="manage-button btn btn-danger" (click)="onDeleteRecipe()">X</button>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-12 col-sm-12">
-        {{ recipe?.description }}
+    <div class="row">
+        <div class="col-md-12 col-sm-12">
+            <h4>Recipe Description:</h4>
+            {{ recipe.description }}
+        </div>
+    </div>
+    <div class="row" *ngIf="recipe.namesTree.length > 1">
+        <div class="col-md-12 col-sm-12">
+            <h4>Recipe Tree:</h4>
+            <ul class="list-group">
+                <ng-template ngFor let-item [ngForOf]="recipe.namesTree">
+                    <li class="list-group-item" *ngIf="!(item.id === recipe.id)">
+                        {{ item.name }}
+                    </li>
+                </ng-template>                           
+            </ul>
+        </div>
     </div>
 </div>
