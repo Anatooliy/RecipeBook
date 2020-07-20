@@ -35,7 +35,10 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     if (this.editMode) {
       this.recipeService.updateRecipe(this.id, this.recipeForm.value);
     } else {
-      this.recipeForm.controls.parentId.setValue(this.recipeForm.value.namesTree.id);
+      this.recipeForm.controls.parentId.setValue(
+        this.recipeForm.value.namesTree.id !== 0 ? this.recipeForm.value.namesTree.id : null
+      );
+
       this.recipeService.addRecipe(this.recipeForm.value);
     }
 

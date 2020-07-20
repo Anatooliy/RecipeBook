@@ -6,7 +6,7 @@ namespace Web.API.Util
 {
     public class ConfigureAutoMapper
     {
-        public IMapper GetMapper()
+        public IMapper GetDtoToViewMapper()
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -15,6 +15,11 @@ namespace Web.API.Util
             });
 
             return config.CreateMapper();
+        }
+
+        public IMapper GetViewToDtoMapper()
+        {
+            return new MapperConfiguration(cfg => cfg.CreateMap<RecipeViewModel, RecipeDTO>()).CreateMapper();
         }
     }
 }

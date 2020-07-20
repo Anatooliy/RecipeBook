@@ -20,21 +20,19 @@ namespace Web.API.Controllers
         // GET api/values
         public IEnumerable<RecipeViewModel> Get()
         {
-            return new ConfigureAutoMapper().GetMapper().Map<IEnumerable<RecipeDTO>, List<RecipeViewModel>>(recipeService.GetRecipes());
+            return new ConfigureAutoMapper().GetDtoToViewMapper().Map<IEnumerable<RecipeDTO>, List<RecipeViewModel>>(recipeService.GetRecipes());
         }
 
         // GET api/values/5
         public RecipeViewModel Get(int id)
         {
-            return new ConfigureAutoMapper().GetMapper().Map<RecipeDTO, RecipeViewModel>(recipeService.GetRecipe(id)); ;
+            return new ConfigureAutoMapper().GetDtoToViewMapper().Map<RecipeDTO, RecipeViewModel>(recipeService.GetRecipe(id)); ;
         }
 
         // POST api/values
         public void Post([FromBody] RecipeViewModel recipe)
         {
-            RecipeDTO recipeDTO = new MapperConfiguration(cfg => cfg.CreateMap<RecipeViewModel, RecipeDTO > ())
-                .CreateMapper()
-                .Map<RecipeViewModel, RecipeDTO>(recipe);
+            RecipeDTO recipeDTO = new ConfigureAutoMapper().GetViewToDtoMapper().Map<RecipeViewModel, RecipeDTO>(recipe);
 
             recipeService.CreateRecipe(recipeDTO);
         }
@@ -42,9 +40,7 @@ namespace Web.API.Controllers
         // PUT api/values/5
         public void Put([FromBody] RecipeViewModel recipe)
         {
-            RecipeDTO recipeDTO = new MapperConfiguration(cfg => cfg.CreateMap<RecipeViewModel, RecipeDTO>())
-                .CreateMapper()
-                .Map<RecipeViewModel, RecipeDTO>(recipe);
+            RecipeDTO recipeDTO = new ConfigureAutoMapper().GetViewToDtoMapper().Map<RecipeViewModel, RecipeDTO>(recipe);
 
             recipeService.UpdateRecipe(recipeDTO);
         }

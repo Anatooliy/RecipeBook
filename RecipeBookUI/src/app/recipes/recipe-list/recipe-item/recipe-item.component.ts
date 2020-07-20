@@ -16,4 +16,12 @@ export class RecipeItemComponent implements OnInit {
   getFullName(): string {
     return this.recipe.namesTree.find(node => node.id === this.recipe.id).name;
   }
+
+  getLeftMargin(): string {
+    if (this.recipe.namesTree.length > 1) {
+      return ((this.recipe.namesTree.length - 1) * 3) + '%';
+    } else {
+      return '0';
+    }
+  }
 }
