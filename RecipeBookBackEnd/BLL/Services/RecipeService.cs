@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using BLL.DTO;
+using BLL.Extensions;
 using BLL.Helpers;
 using BLL.Interfaces;
 using DAL.Entities;
 using DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BLL.Services
 {
@@ -20,9 +22,13 @@ namespace BLL.Services
 
         public IEnumerable<RecipeDTO> GetRecipes()
         {
+
+            var orderedRecipes = db.Recipes.GetAll().Where(item => item.ParentRecipe == null).OrderBy(item => item.Name)
+                            .Expand(item => item.Recipes != null && item.Recipes.Any() ? item.Recipes.OrderBy(child => child.Name) : null);
+
             return new RecipeHelper()
                 .GetRecipeToRecipeDtoMapper()
-                .Map<IEnumerable<Recipe>, List<RecipeDTO>>(db.Recipes.GetAll());
+                .Map<IEnumerable<Recipe>, List<RecipeDTO>>(orderedRecipes);
         }
 
         public RecipeDTO GetRecipe(int? id)

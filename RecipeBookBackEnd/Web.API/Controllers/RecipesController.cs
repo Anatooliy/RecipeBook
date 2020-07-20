@@ -20,13 +20,17 @@ namespace Web.API.Controllers
         // GET api/values
         public IEnumerable<RecipeViewModel> Get()
         {
-            return new ConfigureAutoMapper().GetDtoToViewMapper().Map<IEnumerable<RecipeDTO>, List<RecipeViewModel>>(recipeService.GetRecipes());
+            return new ConfigureAutoMapper()
+                .GetDtoToViewMapper()
+                .Map<IEnumerable<RecipeDTO>, List<RecipeViewModel>>(recipeService.GetRecipes());
         }
 
         // GET api/values/5
         public RecipeViewModel Get(int id)
         {
-            return new ConfigureAutoMapper().GetDtoToViewMapper().Map<RecipeDTO, RecipeViewModel>(recipeService.GetRecipe(id)); ;
+            return new ConfigureAutoMapper()
+                .GetDtoToViewMapper()
+                .Map<RecipeDTO, RecipeViewModel>(recipeService.GetRecipe(id)); ;
         }
 
         // POST api/values
