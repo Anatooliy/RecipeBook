@@ -14,9 +14,9 @@ namespace DAL.Repositories
         private RecipeContext db;
         private RecipeRepository recipeRepository;
 
-        public EFUnitOfWork()
+        public EFUnitOfWork(string connectionString)
         {
-            db = new RecipeContext();
+            db = new RecipeContext(connectionString);
         }
 
         public IRepository<Recipe> Recipes

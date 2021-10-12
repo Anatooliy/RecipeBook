@@ -4,22 +4,13 @@
 namespace Web.API.App_Start
 {
     using System;
-    using System.Linq;
     using System.Web;
-    using System.Web.Http;
-    using System.Web.Mvc;
     using BLL.Infrastructure;
-    using BLL.Interfaces;
-    using BLL.Services;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
     using Ninject;
-    using Ninject.Modules;
     using Ninject.Web.Common;
     using Ninject.Web.Common.WebHost;
-    using Ninject.Web.WebApi;
-    using Ninject.Web.WebApi.Filter;
-    //using Ninject.Web.WebApi;
     using Web.API.Util;
 
     public static class NinjectWebCommon 
@@ -50,7 +41,7 @@ namespace Web.API.App_Start
         /// <returns>The created kernel.</returns>
         private static IKernel CreateKernel()
         {            
-            var kernel = new StandardKernel(new RecipeModule(), new ServiceModule("DefaultConnection"));
+            var kernel = new StandardKernel();
             
             try
             {
@@ -73,6 +64,7 @@ namespace Web.API.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Load(new RecipeModule(), new ServiceModule("RecipeBookConnection"));
         }
     }
 }
